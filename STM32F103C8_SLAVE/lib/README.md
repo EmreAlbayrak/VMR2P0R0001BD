@@ -21,7 +21,7 @@ Slave devices listens the serial port in a loop to catch the packages coming fro
 
 
 
-### 1. Set Commands:
+### 1. Set Commands:gi
 
 Slave device requires some parameters to accomlish the the given task where they comes from Master. After the standard beggining of the commands (zeroth element of the string arr[0]), first element of the string is slave number where it is represented with "A" in the example structure (arr[1]). The second digit is an indicator of the command type where it is "S" in the set comands (arr[2]). The next two digits are parameter ID (arr[3] to arr[4]) where it is represented "CC" in the example structure below. The continues 6 digits (arr[5] to arr[10]) are parameter value represented with "######" in the following example. 
 
