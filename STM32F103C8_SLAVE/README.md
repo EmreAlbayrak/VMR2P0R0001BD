@@ -3,8 +3,6 @@
 *Visiomex Industrial Image Processing Solutions Inc. 2021*
 *This project is ın development process. Some parts and functions might not work as expected.
 
----
-
 ## Protocol Information
 
 The current version of the system uses RS485 communication protocol for "in robot communication". There are one controller device (STM32F207ZG) where it acts like bridge between computer and robotic system and it makes the relevant calculations and sequences the tasks in the system. The STM32F207ZG device is the "Master Device" and sends the "Slave Devices" relevant commands and paramters. The other modules (Motor Drivers, Sensor Modules etc.) are Slaves parts of the system where they structured on STM32F103C8 board. 
@@ -17,13 +15,9 @@ This document focuces on the "Slave Device" structure of the system.
 - >SLAVE(S) IC: STM32F103C8 (current version)
 - >Communication Protocol: RS485 (with UART-RS485 converter)
 
----
-
 ## Package Structures
 
 Slave devices listens the serial port in a loop to catch the packages coming from MASTER device. There are different type of command / feedback packages available in the system. From structure perspective, each package starts with angle bracket symbol ">" where both MASTER and SLAVE devices accepts the packages starting with it.
-
-
 
 ### 1. Set Commands (MASTER to SLAVE):
 
@@ -31,9 +25,9 @@ Slave device requires some parameters to accomlish the the given task where they
 
 ***Example:***
 
-- **Command Structure:** ">ABCC######"
+- >**Command Structure:** ">ABCC######"
 
-- **Size of Command:** 11 elements char array (string, including ">" symbol)
+- >**Size of Command:** 11 elements char array (string, including ">" symbol)
 
 ***Full List of Set Commands***
 
@@ -45,31 +39,49 @@ Slave device requires some parameters to accomlish the the given task where they
 | 2 | 04 | input_microstep_coeff | *Coeff* | *1/4 microsteps:* >2S04000004 | >F2S04 |
 | 2 | 05 | input_system_cycle_linear_coeff | *mm\*10* | *137.5mm per cycle:* >2S05001375 | >F2S05 |
 
-
 ### 2. Move Commands (MASTER to SLAVE):
 
 As mentioned in the general command structure info, move commands starts with ">" symbol (arr[0]), the first element of the array (arr[1]) is slave ID and second element (commant type, arr[2]) is "M" where it indicates it is a Move Command. The following element of the string (arr[3]) is rotation type and it can get "R" for rotational, "L" for linear and "S" for step inputs. The next element represented in the example "D" (arr[4]) is the direction of rotation and it can get "P" for positive direction and "N" for negative direction. For rotational use, positive direction is CW (clockwise) and negative direction is CCW (counter clockwise). The digits from arr[5] to arr[8] (represented by #### in example command structure) is the input distance in units of "degrees" for rotational use, "mm" for linear use and "steps" for step inputs. The element arr[9] and arr[10] are null digits to match the package size to "11 elements" to keep standard package size for all commands.
 
-
 ***Example:***
 
-- **Command Structure:** ">ABCD####NN"
+- >**Command Structure:** ">ABCD####NN"
 
-- **Size of Command:** 11 elements char array (string, including ">" symbol)
+- >**Size of Command:** 11 elements char array (string, including ">" symbol)
 
 ***Example List of Move Commands***
 
 | Example Slave ID | Move Type | Direction of Rotation | Example Package | Expacted Confirm Feedback from Slave |
 | ---------------- | --------- | --------------------- | --------------- | ------------------------------------ |
-| 1 | Rotational | Positive | *360 degrees:* >1MRP0360NN | >F1M1 |
-| 1 | Linear | Negative | *300 mm:* >1MLN0300NN | >F1M1 |
-| 2 | Steps | Positive | *400 steps:* >2MSP0400 | >F2M1 |
+| 1 | Rotational | Positive | *360 degrees:* >1MRP0360NN | >F1M01 |
+| 1 | Linear | Negative | *300 mm:* >1MLN0300NN | >F1M02 |
+| 1 | Steps | Positive | *400 steps:* >1MSP0400 | >F1M03 |
 
 Reminding:
 
 - Positive: *CW*
 - Negative: *CCW*
 
+### 3. Feedback Package 
 
+As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Commands*", the feedback commands starts with ">" symbols and following digit is "F" letter. The second element (arr[2]) indicates the Slave ID, third element (arr[3]) is command type to approve and could take "S" for set, "M" for move commands. The following digits (arr[4] and arr[5]) are Feedback ID.
 
+***Example:***
+
+- >**Command Structure:** ">ABCDD"
+
+- >**Size of Command:** 6 elements char array (string, including ">" symbol)
+
+***Full List of Feedback Packages***
+
+| Example Slave ID | Feedback Type | Relevant Command | Example Feedback | Description |
+| ---------------- | ------------- | ---------------- | ---------------- | ----------- |
+| 1 | Confirm | Set Command | >F1S01 | input_step_time_speed_steady succesfully set |
+| 1 | Confirm | Set Command | >F1S02 | input_step_time_speed_min succesfully set |
+| 1 | Confirm | Set Command | >F1S03 | input_step_count_acceleration succesfully set |
+| 1 | Confirm | Set Command | >F1S04 | input_microstep_coeff succesfully set |
+| 1 | Confirm | Set Command | >F1S05 | input_system_cycle_linear_coeff succesfully set |
+| 1 | Confirm | Move Command | >F1M01 | Move Rotational Command Confirmed |
+| 1 | Confirm | Move Command | >F1M02 | Move Linear Command Confirmed |
+| 1 | Confirm | Move Command | >F1M03 | Move Step Command Confirmed |
 
