@@ -1,5 +1,5 @@
-#include "motordriver.h"
-//#include <Arduino.h>
+#include "motorcontrol.h"
+#include <Arduino.h>
 
 void motor_power_on(uint32_t enable_pin){
     digitalWrite(enable_pin, HIGH);
@@ -9,15 +9,19 @@ void motor_power_off(uint32_t enable_pin){
     digitalWrite(enable_pin, LOW);
 }
 
-void set_direction_of_rotation_positive(uint32_t direction_pin){
-    digitalWrite(direction_pin, HIGH);
+void motor_direction_of_rotation(char direction, uint32_t direction_pin){
+    if(direction == 'P'){
+        digitalWrite(direction_pin, HIGH);
+    }
+    else if(direction == 'N'){
+        digitalWrite(direction_pin, LOW);
+    }
+    else{
+        //TODO: Send Required Feedback
+    }
 }
 
-void set_direction_of_rotation_negative(uint32_t direction_pin){
-    digitalWrite(direction_pin, LOW);
-}
-
-uint32_t acceleration_control(uint32_t step_count_acceleration_calculated,uint32_t step){
+uint32_t acceleration_control(uint32_t step_count_acceleration_calculated, uint32_t step){
     if(step / 2 > step_count_acceleration_calculated){
         return step_count_acceleration_calculated;
     }
@@ -26,7 +30,7 @@ uint32_t acceleration_control(uint32_t step_count_acceleration_calculated,uint32
     }
 }
 
-void move_motor(uint32_t system_cycle_linear_coeff,uint32_t step,uint32_t step_time_speed_min,uint32_t step_time_speed_steady,uint32_t step_count_acceleration,uint32_t pulse_pin){
+void drive_motor(uint32_t system_cycle_linear_coeff,uint32_t step,uint32_t step_time_speed_min,uint32_t step_time_speed_steady,uint32_t step_count_acceleration,uint32_t pulse_pin){
 //--------------------------------------------------------------------- Driving motor
     uint32_t step_time_speed_instantaneous;
     for(int step_counter = 0 ; step_counter < step ; step_counter++){
@@ -42,4 +46,8 @@ void move_motor(uint32_t system_cycle_linear_coeff,uint32_t step,uint32_t step_t
         step_time_speed_instantaneous = map(step_counter, step - step_count_acceleration, step, step_time_speed_steady, step_time_speed_min);
         }
     }
+}
+
+void start_motion(String package_income){
+        
 }
