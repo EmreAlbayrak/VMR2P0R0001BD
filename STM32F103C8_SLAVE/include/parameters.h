@@ -28,4 +28,8 @@ uint32_t step_count_acceleration;
 
 const uint8_t slave_ID = 1;
 
+const uint8_t length_of_package_income = 11;
+
+const char compile_date[] = __DATE__ " " __TIME__; 
+
 #endif //PARAMETERS_H

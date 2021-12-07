@@ -1,15 +1,15 @@
 #include "motorcontrol.h"
 #include <Arduino.h>
 
-void motor_power_on(uint32_t enable_pin){
+void motor_power_on(uint8_t enable_pin){
     digitalWrite(enable_pin, HIGH);
 }
 
-void motor_power_off(uint32_t enable_pin){
+void motor_power_off(uint8_t enable_pin){
     digitalWrite(enable_pin, LOW);
 }
 
-void motor_direction_of_rotation(char direction, uint32_t direction_pin){
+void motor_direction_of_rotation(char direction, uint8_t direction_pin){
     if(direction == 'P'){
         digitalWrite(direction_pin, HIGH);
     }
@@ -21,7 +21,7 @@ void motor_direction_of_rotation(char direction, uint32_t direction_pin){
     }
 }
 
-uint32_t acceleration_control(uint32_t step_count_acceleration_calculated, uint32_t step){
+uint32_t motor_acceleration_control(uint32_t step_count_acceleration_calculated, uint32_t step){
     if(step / 2 > step_count_acceleration_calculated){
         return step_count_acceleration_calculated;
     }
@@ -30,7 +30,7 @@ uint32_t acceleration_control(uint32_t step_count_acceleration_calculated, uint3
     }
 }
 
-void drive_motor(uint32_t system_cycle_linear_coeff,uint32_t step,uint32_t step_time_speed_min,uint32_t step_time_speed_steady,uint32_t step_count_acceleration,uint32_t pulse_pin){
+void drive_motor(uint32_t step, uint32_t step_time_speed_min, uint32_t step_time_speed_steady, uint32_t step_count_acceleration, uint32_t pulse_pin){
 //--------------------------------------------------------------------- Driving motor
     uint32_t step_time_speed_instantaneous;
     for(int step_counter = 0 ; step_counter < step ; step_counter++){
@@ -48,6 +48,7 @@ void drive_motor(uint32_t system_cycle_linear_coeff,uint32_t step,uint32_t step_
     }
 }
 
-void start_motion(String package_income){
-        
+void output_control(uint8_t output_ID, boolean value){
+
+    
 }

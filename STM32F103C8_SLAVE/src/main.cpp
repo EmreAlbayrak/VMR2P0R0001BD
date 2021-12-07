@@ -3,27 +3,38 @@
 #include "motorcontrol.h"
 #include "packagecontrol.h"
 
-const char compile_date[] = __DATE__ " " __TIME__; 
-
 void command_control(String package_income){
-    char command_type = package_income.charAt(2); 
-    switch(command_type){
-
-      case 'S':
-          set_parameters(package_income);
-          break;
-
-      case 'M':
-          motor_power_on(motor_enable_pin);
-          motor_direction_of_rotation(package_income[4], motor_direction_pin);
-          
-          drive_motor(input_system_cycle_linear_coeff, input_step, input_step_time_speed_min, input_step_time_speed_steady, input_step_count_acceleration, motor_pulse_pin);
-          break;
-      case 'G':
-          break;
-      default:
-          send_feedback(1);
+    char command_type = package_income.charAt(2);
+    if(package_length_control(package_income, length_of_package_income)){
+    switch (command_type){
+      case 'C': {
+        
+      }
+      case 'S': { //Set Parameters
+        uint8_t parameter_ID = package_income.substring(3,5).toInt();
+        uint32_t parameter_value = package_income.substring(5,11).toInt();
+        set_parameter(parameter_ID, parameter_value);
+        break;
+      }
+      case 'M': { //Motor Move
+        motor_power_on(motor_enable_pin);
+        motor_direction_of_rotation(package_income[4], motor_direction_pin);
+        step_count_acceleration = motor_acceleration_control(input_step_count_acceleration, input_step);
+        motor_drive(input_step, input_step_time_speed_min, input_step_time_speed_steady, input_step_count_acceleration, motor_pulse_pin);
+        //send_confirm_feedback() //TODO: Send required confirm feedback
+        break;
+      }
+      case 'G': { //Get Feedback
+        send_confirm_feedback(5);
+        break;
+      }
+      default: {
+        send_error_feedback(1);
+      }
     }
+    }
+
+    
 }
 
 void setup() {
