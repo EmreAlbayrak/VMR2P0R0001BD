@@ -1,7 +1,8 @@
 # **Visiomex VMR2P0R0001BD Motor Controller (Slave) Documentation**
 
 *Visiomex Industrial Image Processing Solutions Inc. 2021*
-*This project is ın development process. Some parts and functions might not work as expected.
+
+*This project is ın development process. Some parts and functions might not work as expected*.
 
 # Protocol Information
 
