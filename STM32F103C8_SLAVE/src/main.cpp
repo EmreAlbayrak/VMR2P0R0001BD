@@ -13,7 +13,7 @@ void command_control(String package_income){
         uint8_t value = package_income.substring(4,5).toInt();
         switch(output_ID){
           case 'M':{
-            send_confirm_feedback("1", "M", "00");
+            send_confirm_feedback("1", "C", "00");
             digitalWrite(motor_enable_pin, value);
             break;
           }

@@ -97,9 +97,9 @@ As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Com
 | 1 | Confirm | Set Command | >1FS05 | input_system_cycle_linear_coeff succesfully set |
 | 1 | Confirm | Move Command | >1FM01 | Move Step command confirmed |
 | 1 | Confirm | IO Command | >1FC01 | IO Control command confirmed |
+| 1 | Confirm | IO Command | >1FC00 | Motor power on command confirmed | 
+| 1 | Confirm | IO Command | >1FC00 | Motor power off command confirmed | 
 | 1 | Confirm | Get Command | >1FG01 | Get command confirmed |
-| 1 | Confirm | GPIO Command | >1FC01 | Motor power on command confirmed | 
-| 1 | Confirm | GPIO Command | >1FC02 | Motor power off command confirmed | 
 | 1 | Done | Move Action | >1FA01 | Action Accomplished |
 | 1 | Error | Package - General | >1EP01 | Package length mismatch |
 | 1 | Error | Package - General | >1EP02 | Invalid command type |
