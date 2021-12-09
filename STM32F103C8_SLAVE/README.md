@@ -64,17 +64,26 @@ Reminding:
 - Positive: *CW*
 - Negative: *CCW*
 
-### 1.3. Enable / Disable Commands
+### 1.3. IO Commands (MASTER to SLAVE)
 
 As the other commands, The package starts with ">" symbol and Slave ID follows on the next digit. The second element (arr[2]) of the string is command type where it is "C" in Enable / Disable commands. The third element of the string (arr[3]) is the ID of the GPIO. In current version, there is only motors ID available ("M") for power up and power off the motors. The following digit (arr[4}]) is the boolean value of the pin condition ("0" or "1"). The following 6 digits are not important but the package should contain 11 digits to match the package length. 
 
-**Enable / Disable Motors
+**Enable / Disable Motors**
 
 | Example Slave ID | GPIO ID | GPIO Value | Description | Example Package | Expacted Confirm Feedback from Slave |
 | ---------------- | ------- | ---------- | ----------- | --------------- | ------------------------------------ |
 | 1 | M | 1 | Power on motor | >1CM1NNNNNN | >1FC01 |
 | 1 | M | 0 | Power off motor | >1CM1NNNNNN | >1FC02 |
 
+### 1.4 Home Command (MASTER to SLAVE)
+
+The home command is set the relevent axis to home position. It uses the standard package format. The command type (arr[2]) is "H" in home commands.
+
+**Example Command**
+
+| Example Slave ID | Description | Example Package | Expacted Confirm Feedback from Slave |
+| ---------------- | ----------- | --------------- | ------------------------------------ |
+| 1 | Allign axis to home position | >1CHNNNNNNN | >1FH01 |
 
 ## 2. Feedback (SLAVE to MASTER) 
 
@@ -100,6 +109,7 @@ As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Com
 | 1 | Confirm | IO Command | >1FC00 | Motor power on command confirmed | 
 | 1 | Confirm | IO Command | >1FC00 | Motor power off command confirmed | 
 | 1 | Confirm | Get Command | >1FG01 | Get command confirmed |
+| 1 | Confirm | Home Command | >1FH01 | Home position command confirmed |
 | 1 | Done | Move Action | >1FA01 | Action Accomplished |
 | 1 | Error | Package - General | >1EP01 | Package length mismatch |
 | 1 | Error | Package - General | >1EP02 | Invalid command type |
@@ -107,3 +117,31 @@ As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Com
 | 1 | Error | Package - Set Command | >1EP04 | Invalid parameter ID |
 | 1 | Error | Package - IO Command | >1EP05 | Invalid IO ID | 
 
+# Hardware Connections
+
+The required hardware connections had been given in the table below.
+
+***List of pin connections between Blue Pill STM32F103C8 board and external devices:***
+
+| External Device Name | External Device Pin Name | STM32F303RE Nucleo Pin Number |
+| -------------------- | ------------------------ | ----------------------------- |
+| CWD556 Motor Driver | DIR+ | PB14 |
+| CWD556 Motor Driver | PUL+ | PB13 |
+| CWD556 Motor Driver | ENA+ | PC13 |
+| Sensor - Limit Switch | Signal | PB12 |
+
+***List of pin connection between motors and motor drivers:***
+
+| Motor's Original Cable Colour | Color of Extention Cable | GX16 Socket Pin Number | Motor Driver Pin Name |
+| ----------------------------- | ------------------------ | ---------------------- | --------------------- |
+| RED | BROWN | 1 | A+ |
+| YELLOW | SC to BLUE | NC | NC |
+| BLUE | SC to YELLOW | NC | NC |
+| BLACK | YELLOW | 3 | A- |
+| WHITE | WHITE | 2 | B+ |
+| ORANGE | SC to BROWN | NC | NC |
+| BROWN | SC to ORANGE | NC | NC |
+| GREEN | GREEN | 4 | B- |
+
+*NC: Not Connected* 
+*SC: Short Circuit* 
