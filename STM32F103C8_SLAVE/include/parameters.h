@@ -16,7 +16,7 @@ uint32_t input_system_cycle_linear_coeff;
 
 const uint32_t motor_pulse_pin = PB13;
 const uint32_t motor_direction_pin = PB14;
-const uint32_t motor_enable_pin = PB15;
+const uint32_t motor_enable_pin = PC13; //TODO: Change after test to PB15
 
 uint32_t limit_switch_pin = PB12; 
 
@@ -26,7 +26,7 @@ uint32_t step_count_acceleration;
 
 //---------------------------------------------------------------------  Constant Parameters
 
-const uint8_t slave_ID = 1;
+const String slave_ID = "1";
 
 const uint8_t length_of_package_income = 11;
 

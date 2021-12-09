@@ -8,7 +8,7 @@
 
 The current version of the system uses RS485 communication protocol for "in robot communication". There are one controller device (STM32F207ZG) where it acts like bridge between computer and robotic system and it makes the relevant calculations and sequences the tasks in the system. The STM32F207ZG device is the "Master Device" and sends the "Slave Devices" relevant commands and paramters. The other modules (Motor Drivers, Sensor Modules etc.) are Slaves parts of the system where they structured on STM32F103C8 board. 
 
-From hardware side, each slave devices connected to UART-RS485 converter. ( STM32F103C8 (SLAVE) -> Serial (UART) -> UART-RS485 Converter -> RS485 -> MASTER / SLAVE(S) / ... ).
+From hardware side, each slave devices connected to UART-RS485 converter. ( [STM32F103C8 (SLAVE)] -> Serial (UART) -> [UART-RS485 Converter] -> RS485 -> [MASTER / SLAVE(S) / ... ]).
 
 This document focuces on the "Slave Device" structure of the system. 
 
@@ -95,7 +95,9 @@ As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Com
 | 1 | Confirm | Set Command | >1FS03 | input_step_count_acceleration succesfully set |
 | 1 | Confirm | Set Command | >1FS04 | input_microstep_coeff succesfully set |
 | 1 | Confirm | Set Command | >1FS05 | input_system_cycle_linear_coeff succesfully set |
-| 1 | Confirm | Move Command | >1FM01 | Move Step Command confirmed |
+| 1 | Confirm | Move Command | >1FM01 | Move Step command confirmed |
+| 1 | Confirm | IO Command | >1FC01 | IO Control command confirmed |
+| 1 | Confirm | Get Command | >1FG01 | Get command confirmed |
 | 1 | Confirm | GPIO Command | >1FC01 | Motor power on command confirmed | 
 | 1 | Confirm | GPIO Command | >1FC02 | Motor power off command confirmed | 
 | 1 | Done | Move Action | >1FA01 | Action Accomplished |
@@ -103,4 +105,5 @@ As mentioned in the "*Full List of Set Commands*" and "*Example List of Move Com
 | 1 | Error | Package - General | >1EP02 | Invalid command type |
 | 1 | Error | Package - Move Command | >1EP03 | Invalid direction of rotation |
 | 1 | Error | Package - Set Command | >1EP04 | Invalid parameter ID |
+| 1 | Error | Package - IO Command | >1EP05 | Invalid IO ID | 
 
