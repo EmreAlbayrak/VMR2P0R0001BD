@@ -73,7 +73,7 @@ As the other commands, The package starts with ">" symbol and Slave ID follows o
 | Example Slave ID | GPIO ID | GPIO Value | Description | Example Package | Expacted Confirm Feedback from Slave |
 | ---------------- | ------- | ---------- | ----------- | --------------- | ------------------------------------ |
 | 1 | M | 1 | Power on motor | >1CM1NNNNNN | >1FC01 |
-| 1 | M | 0 | Power off motor | >1CM1NNNNNN | >1FC02 |
+| 1 | M | 0 | Power off motor | >1CM0NNNNNN | >1FC02 |
 
 ### 1.4 Home Command (MASTER to SLAVE)
 

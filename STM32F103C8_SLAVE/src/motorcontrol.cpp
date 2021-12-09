@@ -3,6 +3,7 @@
 
 void motor_power_on(uint8_t enable_pin){
     digitalWrite(enable_pin, HIGH);
+    delay(100);
 }
 void motor_power_off(uint8_t enable_pin){
     digitalWrite(enable_pin, LOW);
@@ -14,9 +15,6 @@ void motor_direction_of_rotation(char direction, uint8_t direction_pin){
     }
     else if(direction == 'N'){
         digitalWrite(direction_pin, LOW);
-    }
-    else{
-        //TODO: Send Required Feedback
     }
 }
 uint32_t motor_acceleration_control(uint32_t step_count_acceleration_calculated, uint32_t step){
