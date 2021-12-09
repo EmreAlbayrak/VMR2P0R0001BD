@@ -8,6 +8,7 @@ void motor_power_off(uint8_t enable_pin);
 void motor_direction_of_rotation(char direction, uint8_t direction_pin);
 uint32_t motor_acceleration_control(uint32_t step_count_acceleration_calculated, uint32_t step);
 void motor_drive(uint32_t step, uint32_t step_time_speed_min, uint32_t step_time_speed_steady, uint32_t step_count_acceleration, uint32_t pulse_pin);
+void motor_drive_home(uint8_t sensor_limit_switch_pin, uint32_t step_time_speed_min, uint32_t step_time_speed_steady, uint8_t pulse_pin);
 
 #endif
 

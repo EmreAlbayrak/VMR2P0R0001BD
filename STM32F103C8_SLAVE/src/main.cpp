@@ -53,6 +53,7 @@ void command_control(String package_income){
         send_confirm_feedback(slave_ID, "M", "01"); 
         motor_power_on(motor_enable_pin);
         motor_direction_of_rotation(package_income[4], motor_direction_pin);
+        uint32_t input_step = package_income.substring(4,11).toInt(); 
         step_count_acceleration = motor_acceleration_control(input_step_count_acceleration, input_step);
         motor_drive(input_step, input_step_time_speed_min, input_step_time_speed_steady, input_step_count_acceleration, motor_pulse_pin);
         send_confirm_feedback(slave_ID, "A", "01"); 
@@ -64,7 +65,12 @@ void command_control(String package_income){
         Serial.println(compile_date);
         break;
       }
-      default: {
+      case 'H': {
+        send_confirm_feedback(slave_ID, "H", "01");
+        motor_drive_home(sensor_limit_switch_pin, input_step_time_speed_min, input_step_time_speed_steady, motor_pulse_pin);
+        send_confirm_feedback(slave_ID, "A", "01");
+      }
+      default: { //Send Error
         send_error_feedback(slave_ID, "P", "02");
       }
     }

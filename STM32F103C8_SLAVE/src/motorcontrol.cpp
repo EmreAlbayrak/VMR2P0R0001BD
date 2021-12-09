@@ -45,3 +45,26 @@ void motor_drive(uint32_t step, uint32_t step_time_speed_min, uint32_t step_time
         }
     }
 }
+void motor_drive_home(uint8_t sensor_limit_switch_pin, uint32_t step_time_speed_min, uint32_t step_time_speed_steady, uint8_t pulse_pin){
+    bool limit_switch_flag = true;
+    bool toggle = true;
+    unsigned long time = 0;
+    while(limit_switch_flag){
+        if(digitalRead(sensor_limit_switch_pin) == HIGH){
+            if(toggle == true){
+                time = millis();
+                toggle = false;
+            }
+            if(millis() - time >= 1){
+                limit_switch_flag == false;
+            }
+        }
+        else{
+            toggle = true;
+        }
+        digitalWrite(pulse_pin, HIGH);
+        delayMicroseconds(step_time_speed_steady);
+        digitalWrite(pulse_pin, LOW);
+        delayMicroseconds(step_time_speed_steady);
+    }
+}
