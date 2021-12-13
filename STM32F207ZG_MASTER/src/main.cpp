@@ -9,10 +9,17 @@ EthernetUDP Udp;
 void package_analyser(String package_input){
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
   char command_type = package_input[1];
-  if(package_size_controller(package_input, 12)){
+  if(package_size_and_format_controller(package_input, 12)){
     switch (command_type) {
-      
-           
+      case 'S':
+        String slave_ID = package_input.substring(2,3);
+        String parameter_ID = package_input.substring(3,5);
+        uint32_t parameter_value = package_input.substring(5,12).toInt();
+        set_parameters(slave_ID, parameter_ID, parameter_value);
+        break;
+      case 'M':
+        move_motor(slave_ID, step);
+        
     }
   }
 }

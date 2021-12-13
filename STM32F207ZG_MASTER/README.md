@@ -35,35 +35,22 @@ Following nine digits are null digits to match the package size expected from ro
 
 *List of set parameters and IDs:*
 
-| Package ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
-| ---------- | -------------- | -------------- | --------------- | -------------- | ----- |
-| 01 | thread_distance_x | *mm* | *15mm Thread Distance:* >S01000015NNN | Input | Service |
-| 02 | thread_distance_y | *mm* | *20mm Thread Distance:* >S01000020NNN | Input |Service |
-| 03 | pulley_diameter_x | *mm\*10* | *38.2mm diameter:* >S03000382NNN | Input |Service |
-| 04 | pulley_diameter_y | *mm\*10* | *42.6mm diameter:* >S04000426NNN | Input |Service |
-| 05 | motor_fullcycle_step_x | *# of steps* | *400 Steps per cycle:* >S05000400NNN | Input | Service |
-| 06 | motor_fullcycle_step_y | *# of steps* | *200 Steps per cycle:* >S06000200NNN | Input | Service |
-| 07 | microstep_coeff_x | *Coeff* | *1/32 microstep:* >S07000032NNN | Input | Service |
-| 08 | microstep_coeff_y | *Coeff* | *1/16 microstep:* >S08000016NNN | Input | Service |
-| 09 | max_speed_x | *mm/s* | *10 (mm/s):* >S09000010NNN | Input | Service |
-| 10 | max_speed_y | *mm/s* | *20 (mm/s):* >S10000020NNN | Input | Service |
-| 11 | step_delay_speed_steady_x | *microseconds* | *4000 us:* >S11004000NNN | Output | Test |
-| 12 | step_delay_speed_steady_y | *microseconds* | *5000 us:* >S12005000NNN | Output | Test |
-| 13 | step_delay_speed_min_x | *microseconds* | *400 us:* >S13000400NNN | Input | Service |
-| 14 | step_delay_speed_min_y | *microseconds* | *500 us:* >S14000500NNN | Input | Service |
-| 15 | step_delay_instantaneous_x | *microseconds* | *1000 us:* >S15001000NNN | Output | Test |
-| 16 | step_delay_instantaneous_y | *microseconds* | *1300 us:* >S16001300NNN | Output | Test |
-| 17 | step_delay_acceleration_avg_x | *microseconds* | *500 us:* >S17000500NNN | Output | Test |
-| 18 | step_delay_acceleration_avg_y | *microseconds* | *700 us:* >S18000700NNN | Output | Test |
-| 19 | step_count_acceleration_x | *# of steps* | *400 Steps:* >S19000400NNN | Output | Test |
-| 20 | step_count_acceleration_y | *# of steps* | *800 Steps:* >S20000800NNN | Output | Test |
-| 21 | input_speed_steady_x | *mm/s* | *100 mm/s:* >S21000100NNN | Input | Service |
-| 22 | input_speed_steady_y | *mm/s* | *120 mm/s:* >S22000120NNN | Input | Service |
-| 23 | input_acceleration_x | *mm/s^2* | *50 mm/s^2:* >S23000050NNN | Input | Service |
-| 24 | input_acceleration_y | *mm/s^2* | *60 mm/s^2:* >S24000060NNN | Input | Service |
-| 25 | delta_t_x | *seconds* | *2 s:* >S25000002NNN | Output | Test |
-| 26 | delta_t_y | *seconds* | *2 s:* >S26000002NNN | Output | Test |
-| 27 | driving_mechanism | 0 -> Pulley, 1 -> Lead Screw | *Pulley System:* >S27000000NNN | Input | Service |
+| Example Slave ID | Package ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
+| ---------------- | ---------- | -------------- | -------------- | --------------- | -------------- | ----- |
+| 1 | 01 | thread_distance_x | *mm* | *15mm Thread Distance:* >S101000015NNN | Input | Service |
+| 1 | 02 | pulley_diameter_x | *mm\*10* | *38.2mm diameter:* >S102000382NNN | Input |Service |
+| 1 | 03 | motor_fullcycle_step_x | *# of steps* | *400 Steps per cycle:* >S103000400NNN | Input | Service |
+| 1 | 04 | microstep_coeff_x | *Coeff* | *1/32 microstep:* >S104000032NNN | Input | Service |
+| 1 | 05 | max_speed_x | *mm/s* | *10 (mm/s):* >S105000010NNN | Input | Service |
+| 1 | 06 | step_delay_speed_steady_x | *microseconds* | *4000 us:* >S106004000NNN | Output | Test |
+| 1 | 07 | step_delay_speed_min_x | *microseconds* | *400 us:* >S107000400NNN | Input | Service |
+| 1 | 08 | step_delay_instantaneous_x | *microseconds* | *1000 us:* >S108001000NNN | Output | Test |
+| 1 | 09 | step_delay_acceleration_avg_x | *microseconds* | *500 us:* >S109000500NNN | Output | Test |
+| 1 | 10 | step_count_acceleration_x | *# of steps* | *400 Steps:* >S110000400NNN | Output | Test |
+| 1 | 11 | input_speed_steady_x | *mm/s* | *100 mm/s:* >S111000100NNN | Input | Service |
+| 1 | 12 | input_acceleration_x | *mm/s^2* | *50 mm/s^2:* >S112000050NNN | Input | Service |
+| 1 | 13 | delta_t_x | *seconds* | *2 s:* >S113000002NNN | Output | Test |
+| 1 | 14 | driving_mechanism | 0 -> Pulley, 1 -> Lead Screw | *Pulley System:* >S114000000NNN | Input | Service |
 
 ### 1.2. Move Commands 
 #### Command ID and structure:
@@ -183,7 +170,7 @@ Some parameters are available to set from user, and those parameters requires to
 *List of EEPROM adresses*
 
 | Parameter | Variable Type | EEPROM Address |
-| --------- | ------------- | ------- |
+| --------- | ------------- | -------------- |
 | thread_distance_x | uint16_t | 0 |
 | thread_distance_y | uint16_t | 2 |
 | pulley_diameter_x | float_t | 4 |
