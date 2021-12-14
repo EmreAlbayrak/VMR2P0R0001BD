@@ -35,22 +35,22 @@ Following nine digits are null digits to match the package size expected from ro
 
 *List of set parameters and IDs:*
 
-| Example Slave ID | Package ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
+| Example Slave ID | Parameter ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
 | ---------------- | ---------- | -------------- | -------------- | --------------- | -------------- | ----- |
-| 1 | 01 | thread_distance_x | *mm* | *15mm Thread Distance:* >S101000015NNN | Input | Service |
-| 1 | 02 | pulley_diameter_x | *mm\*10* | *38.2mm diameter:* >S102000382NNN | Input |Service |
-| 1 | 03 | motor_fullcycle_step_x | *# of steps* | *400 Steps per cycle:* >S103000400NNN | Input | Service |
-| 1 | 04 | microstep_coeff_x | *Coeff* | *1/32 microstep:* >S104000032NNN | Input | Service |
-| 1 | 05 | max_speed_x | *mm/s* | *10 (mm/s):* >S105000010NNN | Input | Service |
-| 1 | 06 | step_delay_speed_steady_x | *microseconds* | *4000 us:* >S106004000NNN | Output | Test |
-| 1 | 07 | step_delay_speed_min_x | *microseconds* | *400 us:* >S107000400NNN | Input | Service |
-| 1 | 08 | step_delay_instantaneous_x | *microseconds* | *1000 us:* >S108001000NNN | Output | Test |
-| 1 | 09 | step_delay_acceleration_avg_x | *microseconds* | *500 us:* >S109000500NNN | Output | Test |
-| 1 | 10 | step_count_acceleration_x | *# of steps* | *400 Steps:* >S110000400NNN | Output | Test |
-| 1 | 11 | input_speed_steady_x | *mm/s* | *100 mm/s:* >S111000100NNN | Input | Service |
-| 1 | 12 | input_acceleration_x | *mm/s^2* | *50 mm/s^2:* >S112000050NNN | Input | Service |
-| 1 | 13 | delta_t_x | *seconds* | *2 s:* >S113000002NNN | Output | Test |
-| 1 | 14 | driving_mechanism | 0 -> Pulley, 1 -> Lead Screw | *Pulley System:* >S114000000NNN | Input | Service |
+| 1 | 01 | thread_distance | *mm* | *15mm Thread Distance:* >S101000015 | Input | Service |
+| 1 | 02 | pulley_diameter | *mm\*10* | *38.2mm diameter:* >S102000382 | Input |Service |
+| 1 | 03 | motor_fullcycle_step | *# of steps* | *400 Steps per cycle:* >S103000400 | Input | Service |
+| 1 | 04 | microstep_coeff | *Coeff* | *1/32 microstep:* >S104000032 | Input | Service |
+| 1 | 05 | max_speed | *mm/s* | *10 (mm/s):* >S105000010 | Input | Service |
+| 1 | 06 | input_speed_steady | *mm/s* | *100 mm/s:* >S111000100 | Input | Service |
+| 1 | 07 | input_acceleration | *mm/s^2* | *50 mm/s^2:* >S112000050 | Input | Service |
+| 1 | 08 | driving_mechanism | 0 -> Pulley, 1 -> Lead Screw | *Pulley System:* >S114000000 | Input | Service |
+| 1 | 09 | step_time_speed_steady | *microseconds* | *4000 us:* >S106004000 | Output | Test |
+| 1 | 10 | step_time_speed_min | *microseconds* | *400 us:* >S107000400 | Input | Test* |
+| 1 | 11 | step_time_instantaneous | *microseconds* | *1000 us:* >S108001000 | Output | Test |
+| 1 | 12 | step_time_acceleration_avg | *microseconds* | *500 us:* >S109000500 | Output | Test |
+| 1 | 13 | step_count_acceleration | *# of steps* | *400 Steps:* >S110000400 | Output | Test |
+| 1 | 14 | delta_t | *seconds* | *2 s:* >S113000002 | Output | Test |
 
 ### 1.2. Move Commands 
 #### Command ID and structure:
@@ -70,7 +70,7 @@ The seventh element of the array (array[7]) is the direction of montion on y-axi
 
 Element number eight to eleven are delta motion on y-axis in units of millimeters for linear, degrees for rotational, steps for step inputs.
 
-####*Example Move Command:*
+*Example Move Command:*
 
 **MLP0382N0382** -> *382mm positive direction on x-axis, 382mm negative direction on y-axis.*
 
