@@ -2,16 +2,17 @@
 #define PARAMETERS_H
 
 #include <Arduino.h>
+#include <EEPROM.h>
 
 String serial_package; //Incoming package from serial,
 
 //--------------------------------------------------------------------- Motor control parameters
 const uint8_t number_of_joints = 2;
 const uint8_t number_of_parameters = 8;
-const uint8_t storage_type = 2; // "1" for parameter values, "2" for parameter addresses.
-int parameters_matrix [number_of_joints] [number_of_parameters] [storage_type];
+const uint8_t number_of_storage_type = 2; // "1" for parameter values, "2" for parameter addresses.
+int parameters_matrix [number_of_joints] [number_of_parameters] [number_of_storage_type];
 uint16_t thread_distance = 10; // In units of millimeter
-float_t pulley_diameter = 37.5; //In units of millimeter
+uint16_t pulley_diameter = 375; //In units of millimeter/10
 uint16_t motor_fullcycle_step = 400; // Motor's full cycle number of steps
 uint8_t microstep_coeff = 2; // Motor driver's microstep setting
 uint16_t max_speed = 150; // In units of mm/s
@@ -48,8 +49,9 @@ uint8_t address_driving_mechanism = 24;
 uint8_t address_step_delay_speed_min_1 = 26;
 uint8_t address_step_delay_speed_min_2 = 30;
 
-
 //--------------------------------------------------------------------- Constant parameters
+
+//TODO: Define EEPROM Addresses in the "parameter_matrix"
 
 const char compile_date[] = __DATE__ " " __TIME__;
 

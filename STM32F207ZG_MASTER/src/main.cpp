@@ -26,6 +26,7 @@ void package_analyser(String package_input){
       }
       case 'G': {
         get_parameters();
+        break;
       }
     }
   }
