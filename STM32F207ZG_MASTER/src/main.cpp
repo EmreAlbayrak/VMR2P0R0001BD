@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include <EEPROM.h>
+#include <HardwareSerial.h>
 #include <defines.h>
 #include <packagecontrol.h>
 #include <motorcontrolcalculator.h>
 #include <parameters.h>
 
 EthernetUDP Udp;
+HardwareSerial Serial6(PG9, PG14);
 
 void print_ethernet(String message){
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
@@ -24,9 +26,6 @@ void set_parameters(uint8_t slave_ID, uint8_t parameter_ID, uint32_t parameter_v
   //TODO: sync_parameters() here
 }
 void get_parameters_EEPROM(){ 
-  std::string s = "123";
-  unsigned int number_of_zeros = 5 - s.length(); // add 2 zeros
-  s.insert(0, number_of_zeros, '0');
   Serial.println("---------------------------------------------------------Service Info Start\n");
   Serial.print("Compile Date: ");
   Serial.println(compile_date);    
@@ -92,6 +91,7 @@ void package_analyser(String package_input){
 }
 void setup() { 
   Serial.begin(115200);
+  Serial6.begin(9600);
   uint16_t index = millis() % NUMBER_OF_MAC;
   char16_t package_buffer[255]; // buffer to hold incoming packet
   Ethernet.begin(mac[index], ip); // Use Static IP
@@ -126,5 +126,9 @@ void loop() {
   if(Serial.available() > 0){
     String serial_package = Serial.readString();
     package_analyser(serial_package);
+  }
+  if(Serial6.available() > 0){
+    String slave_feedback_package = Serial6.readString();
+    print_all(slave_feedback_package);
   }
 }
