@@ -17,8 +17,8 @@ int calculated_parameters_matrix[number_of_joints][number_of_calculated_paramete
 
 uint8_t address_thread_distance_1 = 0;
 uint8_t address_thread_distance_2 = 2;
-uint8_t address_pulley_diameter_1 = 4;
-uint8_t address_pulley_diameter_2 = 8;
+uint8_t address_pulley_perimeter_1 = 4;
+uint8_t address_pulley_perimeter_2 = 8;
 uint8_t address_motor_fullcycle_step_1 = 12;
 uint8_t address_motor_fullcycle_step_2 = 14;
 uint8_t address_microstep_coeff_1 = 16;

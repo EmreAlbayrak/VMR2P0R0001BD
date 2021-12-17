@@ -7,6 +7,6 @@ bool package_format_controller(String package, uint8_t package_length){
     }
     return false;
 }
-void sync_parameters(uint8_t slave_ID, uint8_t parameter_value){
+void sync_parameter(uint8_t slave_ID, uint8_t parameter_value){
 
 }

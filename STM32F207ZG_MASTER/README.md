@@ -34,7 +34,7 @@ In set commands, the package starts with standart package beginning digit ">" an
 | Example Slave ID | Parameter ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
 | ---------------- | ---------- | -------------- | -------------- | --------------- | -------------- | ----- |
 | 1 | 01 | thread_distance | *mm* | *15mm Thread Distance:* >S101000015 | Input | Service |
-| 1 | 02 | pulley_diameter | *mm\*10* | *38.2mm diameter:* >S102000382 | Input |Service |
+| 1 | 02 | pulley_perimeter | *mm\*10* | *120.2mm perimeter:* >S102001202 | Input |Service |
 | 1 | 03 | motor_fullcycle_step | *# of steps* | *400 Steps per cycle:* >S103000400 | Input | Service |
 | 1 | 04 | microstep_coeff | *Coeff* | *1/32 microstep:* >S104000032 | Input | Service |
 | 1 | 05 | max_speed | *mm/s* | *10 (mm/s):* >S105000010 | Input | Service |
