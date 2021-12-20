@@ -126,7 +126,9 @@ void setup() {
   set_parameters_matrix[2][7][2] = address_input_acceleration_2;
   set_parameters_matrix[2][8][2] = address_driving_mechanism;
   set_parameters_matrix[2][9][2] = address_step_time_speed_min_2;
-  get_parameters_EEPROM();
+  for(uint8_t counter = 1; counter <= number_of_joints; counter++){
+    get_parameters_EEPROM(counter);
+  }
 }
 void loop() {
   int package_size = Udp.parsePacket();
