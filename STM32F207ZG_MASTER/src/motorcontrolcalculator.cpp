@@ -39,4 +39,3 @@ void push_move_command(uint8_t slave_ID, char direction_of_rotation, uint32_t st
 void joint_move(String package_input){
   
 }
-

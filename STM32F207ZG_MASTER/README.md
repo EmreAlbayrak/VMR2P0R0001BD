@@ -64,7 +64,7 @@ The move commands packages starts with standart package beginning symbol ">" and
 
 ***Note:** "P" Positive direction of motion means clockwise (CW), "N" Negative direction of motion means counter clockwise (CCW) on rotational inputs.*
 
-### 1.3. IO Commands ();
+### 1.3. IO Commands (Computer to MASTER)
 
 As the other commands, the package starts with ">" symbol and fist digit is the "C" for IO control command type. The second digit is the slave ID (Joint ID / DOF ID). The following digit indicates the IO ID and fourth digit keeps the IO value. Following six digits are Null digits to match the package size for a standard package procedure.
 

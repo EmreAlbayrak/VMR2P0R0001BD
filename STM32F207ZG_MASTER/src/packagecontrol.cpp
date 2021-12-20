@@ -25,6 +25,7 @@ void push_move_joint(String slave_ID, String direction_of_rotation, String comma
     String command = ">" + slave_ID + "M" + direction_of_rotation + command_value;
     Serial6.println(command);
 }
-void forward_slave_to_computer(String package){
-
+void push_IO_joint(String slave_ID, String IO_ID, String IO_value){
+    String package = ">" + slave_ID + "C" + IO_ID + IO_value + "NNNNNN";
+    Serial6.println(package);
 }

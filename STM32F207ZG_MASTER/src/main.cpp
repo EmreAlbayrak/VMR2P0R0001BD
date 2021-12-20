@@ -18,16 +18,11 @@ void print_all(String message){
   Serial.println(message);
   print_ethernet(message);
 }
-void set_parameters(uint8_t slave_ID, uint8_t parameter_ID, uint32_t parameter_value){ //TODO: implement sync_parameters() feature
+void set_parameters(uint8_t slave_ID, uint8_t parameter_ID, uint32_t parameter_value){
   set_parameters_matrix[slave_ID][parameter_ID][1] = parameter_value;
   EEPROM.put(set_parameters_matrix[slave_ID][parameter_ID][2], set_parameters_matrix[slave_ID][parameter_ID][1]);
   calculated_parameters_matrix[slave_ID][1] = speed_calculator_pulley(set_parameters_matrix[slave_ID][9][1], set_parameters_matrix[slave_ID][4][1], set_parameters_matrix[slave_ID][2][1], set_parameters_matrix[slave_ID][6][1], set_parameters_matrix[slave_ID][3][1]);
   calculated_parameters_matrix[slave_ID][2] = acceleration_calculator_pulley(calculated_parameters_matrix[slave_ID][1],set_parameters_matrix[slave_ID][9][1], set_parameters_matrix[slave_ID][4][1], set_parameters_matrix[slave_ID][6][1], set_parameters_matrix[slave_ID][3][1], set_parameters_matrix[slave_ID][7][1]);
-  push_set_joint(String(slave_ID),"04",String(set_parameters_matrix[slave_ID][4][1])); //Push microstep_coeff
-  push_set_joint(String(slave_ID),"02",String(set_parameters_matrix[slave_ID][9][1])); //Push step_time_speed_min
-  push_set_joint(String(slave_ID),"01",String(calculated_parameters_matrix[slave_ID][1])); //Push step_time_speed_steady;
-  push_set_joint(String(slave_ID),"03",String(calculated_parameters_matrix[slave_ID][2])); //Push step_count_acceleration;
-  //TODO: sync_parameters() here
 }
 void get_parameters_EEPROM(uint8_t joint_number){ 
   Serial.println("---------------------------------------------------------Service Info Start\n");
@@ -60,7 +55,11 @@ void package_analyser(String package_input){
         case 'S':{ // Set parameters
           uint8_t parameter_ID = package_input.substring(3,5).toInt();
           uint32_t parameter_value = package_input.substring(5,12).toInt();
-          set_parameters(slave_ID, parameter_ID, parameter_value);
+          set_parameters(slave_ID, parameter_ID, parameter_value);//                                                                  
+          push_set_joint(String(slave_ID),"04",String(set_parameters_matrix[slave_ID][4][1])); //Push microstep_coeff               |
+          push_set_joint(String(slave_ID),"02",String(set_parameters_matrix[slave_ID][9][1])); //Push step_time_speed_min           |
+          push_set_joint(String(slave_ID),"01",String(calculated_parameters_matrix[slave_ID][1])); //Push step_time_speed_steady    |-------------------> sync parameters with relevant slave
+          push_set_joint(String(slave_ID),"03",String(calculated_parameters_matrix[slave_ID][2])); //Push step_count_acceleration   |
           break;
         }
         case 'M':{ // Move joint
@@ -83,6 +82,12 @@ void package_analyser(String package_input){
               float degrees = linear_to_rotational_conv(distance, set_parameters_matrix[slave_ID][2][1]);
               uint32_t steps = degree_to_step_conv(degrees, set_parameters_matrix[slave_ID][3][1], set_parameters_matrix[slave_ID][4][1]);
               push_move_command(slave_ID, direction_of_rotation, steps);
+              if(direction_of_rotation == 'P'){
+                position_matrix[slave_ID] = position_matrix[slave_ID] + distance;
+              } 
+              else if(direction_of_rotation == 'N'){
+                position_matrix[slave_ID] = position_matrix[slave_ID] - distance;
+              }
               break;
             }
           }
@@ -92,11 +97,34 @@ void package_analyser(String package_input){
           get_parameters_EEPROM(slave_ID);
           break;
         }
-        case 'P':{ // Push parameters
-          push_set_joint(String(slave_ID),"04",String(set_parameters_matrix[slave_ID][4][1])); //Push microstep_coeff
-          push_set_joint(String(slave_ID),"02",String(set_parameters_matrix[slave_ID][9][1])); //Push step_time_speed_min
-          push_set_joint(String(slave_ID),"01",String(calculated_parameters_matrix[slave_ID][1])); //Push step_time_speed_steady;
-          push_set_joint(String(slave_ID),"03",String(calculated_parameters_matrix[slave_ID][2])); //Push step_count_acceleration;
+        case 'D':{ // Destination Point TODO: UPDATE README
+          uint16_t point_x = package_input.substring(2,6).toInt();
+          uint16_t point_y = package_input.substring(6,10).toInt();
+          uint32_t delta_x = abs(point_x - position_matrix[1]);
+          uint32_t delta_y = abs(point_y - position_matrix[2]);
+          float degrees_x = linear_to_rotational_conv(delta_x, set_parameters_matrix[1][2][1]);
+          float degrees_y = linear_to_rotational_conv(delta_y, set_parameters_matrix[2][2][1]);
+          uint32_t steps_x = degree_to_step_conv(degrees_x, set_parameters_matrix[1][3][1], set_parameters_matrix[1][4][1]);
+          uint32_t steps_y = degree_to_step_conv(degrees_y, set_parameters_matrix[2][3][1], set_parameters_matrix[2][4][1]);
+          if(point_x > position_matrix[1]){
+            push_move_command(1,'P',steps_x);
+          }
+          else if(point_x < position_matrix[1]){
+            push_move_command(1,'N',steps_x);
+          }
+          if(point_y > position_matrix[2]){
+            push_move_command(2,'P',steps_y);
+          }
+          else if(point_x < position_matrix[2]){
+            push_move_command(2,'N',steps_y);
+          }
+          break;
+        }
+        case 'C':{
+          String IO_ID = package_input.substring(3.4);
+          String IO_value = package_input.substring(4,5);
+          push_IO_joint(String(slave_ID), IO_ID, IO_value);
+          break;
         }
       }
     }
