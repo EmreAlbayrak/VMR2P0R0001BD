@@ -8,7 +8,7 @@ bool package_format_controller(String package, uint8_t package_length){
     return false;
 }
 String zero_padding_string(String command_value, uint8_t expacted_digit_number){
-    uint8_t number_of_zeros = expacted_digit_number = command_value.length();
+    uint8_t number_of_zeros = expacted_digit_number - command_value.length();
     for(uint8_t counter = 0; counter < number_of_zeros; counter++){
         command_value = "0" + command_value;
     }
@@ -17,12 +17,13 @@ String zero_padding_string(String command_value, uint8_t expacted_digit_number){
 void push_set_joint(String slave_ID, String parameter_ID, String parameter_value){
     parameter_value = zero_padding_string(parameter_value, 6);
     String command = ">" + slave_ID + "S" + parameter_ID + parameter_value;
-    Serial6.print(command);
+    Serial6.println(command);
+    delay(1);
 }
 void push_move_joint(String slave_ID, String direction_of_rotation, String command_value){
     command_value = zero_padding_string(command_value, 7);
     String command = ">" + slave_ID + "M" + direction_of_rotation + command_value;
-    Serial6.print(command);
+    Serial6.println(command);
 }
 void forward_slave_to_computer(String package){
 

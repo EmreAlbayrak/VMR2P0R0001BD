@@ -175,7 +175,6 @@ byte mac[][NUMBER_OF_MAC] =
   { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x13 },
   { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x14 },
 };
-
 // Select the IP address according to your local network
 IPAddress ip(192,168,0,2);
 int localPort = 1883;    // 10002;  // local port to listen on

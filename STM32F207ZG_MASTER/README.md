@@ -34,7 +34,7 @@ In set commands, the package starts with standart package beginning digit ">" an
 | Example Slave ID | Parameter ID | Parameter Name | Parameter Unit | Example Package | Parameter Type | Usage |
 | ---------------- | ---------- | -------------- | -------------- | --------------- | -------------- | ----- |
 | 1 | 01 | thread_distance | *mm* | *15mm Thread Distance:* >S101000015 | Input | Service |
-| 1 | 02 | pulley_perimeter | *mm\*10* | *120.2mm perimeter:* >S102001202 | Input |Service |
+| 1 | 02 | pulley_perimeter | *mm* | *120mm perimeter:* >S102000120 | Input |Service |
 | 1 | 03 | motor_fullcycle_step | *# of steps* | *400 Steps per cycle:* >S103000400 | Input | Service |
 | 1 | 04 | microstep_coeff | *Coeff* | *1/32 microstep:* >S104000032 | Input | Service |
 | 1 | 05 | max_speed | *mm/s* | *10 (mm/s):* >S105000010 | Input | Service |
@@ -42,11 +42,11 @@ In set commands, the package starts with standart package beginning digit ">" an
 | 1 | 07 | input_acceleration | *mm/s^2* | *50 mm/s^2:* >S107000050 | Input | Service |
 | 1 | 08 | driving_mechanism | 0 -> Pulley, 1 -> Lead Screw | *Pulley System:* >S108000000 | Input | Service |
 | 1 | 09 | step_time_speed_min | *microseconds* | *400 us:* >S109000400 | Input | Test* |
-| 1 | 10 | step_time_speed_steady | *microseconds* | *4000 us:* >S110004000 | Output | Test |
-| 1 | 11 | step_time_instantaneous | *microseconds* | *1000 us:* >S111001000 | Output | Test |
-| 1 | 12 | step_time_acceleration_avg | *microseconds* | *500 us:* >S112000500 | Output | Test |
-| 1 | 13 | step_count_acceleration | *# of steps* | *400 Steps:* >S113000400 | Output | Test |
-| 1 | 14 | delta_t | *seconds* | *2 s:* >S114000002 | Output | Test |
+| 1 | 10 | step_time_speed_steady | *microseconds* | *4000 us:* >S110004000 | Calculated | Test |
+| 1 | 11 | step_time_instantaneous | *microseconds* | *1000 us:* >S111001000 | Calculated | Test |
+| 1 | 12 | step_time_acceleration_avg | *microseconds* | *500 us:* >S112000500 | Calculated | Test |
+| 1 | 13 | step_count_acceleration | *# of steps* | *400 Steps:* >S113000400 | Calculated | Test |
+| 1 | 14 | delta_t | *seconds* | *2 s:* >S114000002 | Calculated | Test |
 
 ### 1.2. Move Commands (Computer to MASTER)
 
@@ -72,7 +72,7 @@ As the other commands, the package starts with ">" symbol and fist digit is the 
 
 ### 1.4. Move Point Command (Computer to MASTER)
 
-In "Go To Destination" commands, the package starts with ">" and it continues with "P" as a command type. The second element is the slave ID (Joint ID)(DOF ID). Digit number three to ten (following 7 digits) are the destination ID. In the current version, there is only one destination available in the system which is Home Position and the ID is "0000000".
+In "Go To Destination" commands, the package starts with ">" and it continues with "P" as a command type. The second element is the slave ID (Joint ID or DOF ID). Digit number three to ten (following 7 digits) are the destination ID. In the current version, there is only one destination available in the system which is Home Position and the ID is "0000000".
 
 **Example: >PN########** 
 
