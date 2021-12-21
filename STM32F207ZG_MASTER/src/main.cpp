@@ -83,10 +83,10 @@ void package_analyser(String package_input){
               uint32_t steps = degree_to_step_conv(degrees, set_parameters_matrix[slave_ID][3][1], set_parameters_matrix[slave_ID][4][1]);
               push_move_command(slave_ID, direction_of_rotation, steps);
               if(direction_of_rotation == 'P'){
-                position_matrix[slave_ID] = position_matrix[slave_ID] + distance;
+                current_position_matrix[slave_ID] = current_position_matrix[slave_ID] + distance;
               } 
               else if(direction_of_rotation == 'N'){
-                position_matrix[slave_ID] = position_matrix[slave_ID] - distance;
+                current_position_matrix[slave_ID] = current_position_matrix[slave_ID] - distance;
               }
               break;
             }
@@ -98,26 +98,42 @@ void package_analyser(String package_input){
           break;
         }
         case 'D':{ // Destination Point TODO: UPDATE README
-          uint16_t point_x = package_input.substring(2,6).toInt();
-          uint16_t point_y = package_input.substring(6,10).toInt();
-          uint32_t delta_x = abs(point_x - position_matrix[1]);
-          uint32_t delta_y = abs(point_y - position_matrix[2]);
+          uint16_t point_x;
+          uint16_t point_y;
+          char destination_type = package_input[2];
+          switch(destination_type){
+            case 'P':{
+              uint16_t point_ID = package_input.substring(4,7).toInt();
+              point_x = points_matrix[point_ID][1][1];
+              point_y = points_matrix[point_ID][2][1];
+              break;
+            }
+            case 'I':{
+              point_x = package_input.substring(2,6).toInt();
+              point_y = package_input.substring(6,10).toInt();
+              break;
+            }
+          }
+          uint32_t delta_x = abs(point_x - current_position_matrix[1]);
+          uint32_t delta_y = abs(point_y - current_position_matrix[2]);
           float degrees_x = linear_to_rotational_conv(delta_x, set_parameters_matrix[1][2][1]);
           float degrees_y = linear_to_rotational_conv(delta_y, set_parameters_matrix[2][2][1]);
           uint32_t steps_x = degree_to_step_conv(degrees_x, set_parameters_matrix[1][3][1], set_parameters_matrix[1][4][1]);
           uint32_t steps_y = degree_to_step_conv(degrees_y, set_parameters_matrix[2][3][1], set_parameters_matrix[2][4][1]);
-          if(point_x > position_matrix[1]){
+          if(point_x > current_position_matrix[1]){
             push_move_command(1,'P',steps_x);
           }
-          else if(point_x < position_matrix[1]){
+          else if(point_x < current_position_matrix[1]){
             push_move_command(1,'N',steps_x);
           }
-          if(point_y > position_matrix[2]){
+          if(point_y > current_position_matrix[2]){
             push_move_command(2,'P',steps_y);
           }
-          else if(point_x < position_matrix[2]){
+          else if(point_x < current_position_matrix[2]){
             push_move_command(2,'N',steps_y);
           }
+          current_position_matrix[1] = point_x;
+          current_position_matrix[2] = point_y;
           break;
         }
         case 'C':{
@@ -126,9 +142,16 @@ void package_analyser(String package_input){
           push_IO_joint(String(slave_ID), IO_ID, IO_value);
           break;
         }
+        case 'P':{ // To save points to EEPROM
+          uint8_t point_ID = package_input.substring(3,6).toInt();
+          points_matrix[point_ID][1][1] = current_position_matrix[1];
+          points_matrix[point_ID][2][1] = current_position_matrix[2];
+          EEPROM.put(points_matrix[point_ID][1][2], points_matrix[point_ID][1][1]);
+          EEPROM.put(points_matrix[point_ID][2][2], points_matrix[point_ID][2][1]);
+          break;
+        }
       }
     }
-    
   }
 }
 void setup() { 
@@ -138,10 +161,10 @@ void setup() {
   char16_t package_buffer[255]; // buffer to hold incoming packet
   Ethernet.begin(mac[index], ip); // Use Static IP
   Udp.begin(localPort);
-  set_parameters_matrix[1][1][2] = address_thread_distance_1;
-  set_parameters_matrix[1][2][2] = address_pulley_perimeter_1;
-  set_parameters_matrix[1][3][2] = address_motor_fullcycle_step_1;
-  set_parameters_matrix[1][4][2] = address_microstep_coeff_1;
+  set_parameters_matrix[1][1][2] = address_thread_distance_1;            
+  set_parameters_matrix[1][2][2] = address_pulley_perimeter_1;           
+  set_parameters_matrix[1][3][2] = address_motor_fullcycle_step_1;       
+  set_parameters_matrix[1][4][2] = address_microstep_coeff_1;            
   set_parameters_matrix[1][6][2] = address_input_speed_steady_1;
   set_parameters_matrix[1][7][2] = address_input_acceleration_1;
   set_parameters_matrix[1][8][2] = address_driving_mechanism;
@@ -157,6 +180,12 @@ void setup() {
   for(uint8_t counter = 1; counter <= number_of_joints; counter++){
     get_parameters_EEPROM(counter);
   }
+  uint16_t eeprom_address_counter = 100;                                 //|
+  for(uint8_t counter1 = 1; counter1 <= 99; counter1++){                 //|
+    for(uint8_t counter2 = 1; counter2 <= 2; counter2++){                //|------> eeprom address creator for points memory
+      points_matrix[counter1][counter2][2] = eeprom_address_counter + 4; //|
+    }                                                                    //|
+  }                                                                      //|
 }
 void loop() {
   int package_size = Udp.parsePacket();

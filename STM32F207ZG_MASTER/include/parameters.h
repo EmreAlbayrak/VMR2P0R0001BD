@@ -12,7 +12,8 @@ const uint8_t number_of_calculated_parameters = 2;
 const uint8_t number_of_storage_type = 3; // "1" for parameter values, "2" for parameter addresses.
 int set_parameters_matrix [number_of_joints] [number_of_set_parameters] [number_of_storage_type];
 int calculated_parameters_matrix[number_of_joints][number_of_calculated_parameters];
-int position_matrix[number_of_joints]; //Cartesian position matrix
+int current_position_matrix[number_of_joints]; //Cartesian position matrix
+int points_matrix[99][2][2]; // first digit stores point ID, second digit stores axis (1 -> for x-axis, 2 -> for y-axis), thir digit (1 -> holds value, 2 -> holds EEPROM address)
 //--------------------------------------------------------------------- EEPROM Addresses
 
 uint8_t address_thread_distance_1 = 0;
@@ -30,6 +31,8 @@ uint8_t address_input_acceleration_2 = 23;
 uint8_t address_driving_mechanism = 24;
 uint8_t address_step_time_speed_min_1 = 26;
 uint8_t address_step_time_speed_min_2 = 30;
+
+//--------------------------------------------------------------------- EEPROM Address Generator for Destination Points Storage
 
 
 //--------------------------------------------------------------------- Constant parameters
