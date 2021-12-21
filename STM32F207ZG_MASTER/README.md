@@ -68,13 +68,20 @@ The move commands packages starts with standart package beginning symbol ">" and
 
 As the other commands, the package starts with ">" symbol and fist digit is the "C" for IO control command type. The second digit is the slave ID (Joint ID / DOF ID). The following digit indicates the IO ID and fourth digit keeps the IO value. Following six digits are Null digits to match the package size for a standard package procedure.
 
-**Example Package: >C1M0NNNNNN** -> *Set the "Motor Enable IO" to "0 / LOW".
+**Example Package: >C1M0NNNNNN** -> *Set the "Motor Enable IO" to "0 / LOW"*
 
-### 1.4. Move Point Command (Computer to MASTER)
+### 1.4. Save Point Command (Computer to MASTER)
 
-In "Go To Destination" commands, the package starts with ">" and it continues with "P" as a command type. The second element is the slave ID (Joint ID or DOF ID). Digit number three to ten (following 7 digits) are the destination ID. In the current version, there is only one destination available in the system which is Home Position and the ID is "0000000".
+The "Save Point" command package starts with ">" and it continues with "P" as a command type. The second element is the "C" for current position. Digit number three to six (following 3 digits) are point ID to save. In the current version point ID 000 is the home position.
 
-**Example: >PN########** 
+**Example Package: >PC###NNNNN**
+
+### 1.5. Destination Command (Computer to MASTER)
+
+There are two types of "Destination" command available in current version according to the destination type and it indicated in the second digit of the string. For a pre-defined / saved destination, the second element should be "P" and the following three element contains the Point ID. For coordinat destination inputs, the second digit of the string should be "I". In coordinat inputs, digit number three to seven (4 digits) contains x-axis point and last four digits contains y-axis points as a destination.
+
+**Example Package: >DP003NNNNN** -> *Go to destination point number 003.*
+**Example Package: >DIXXXXYYYY** -> *Go to destination point input XXXX,YYYY coordinates*
 
 ## 2. Feedbacks (MASTER to Computer)
 Every feedback package starts with ">" character as an indicator. Computer software should just tooks the feedback packages starting with ">" character (FeedbackString[0]). MCU sends different kind of informations as a feedback (calculation results, status information etc.) for service monitoring. Computer software should only took the packages starting with ">" to avoid problems.
