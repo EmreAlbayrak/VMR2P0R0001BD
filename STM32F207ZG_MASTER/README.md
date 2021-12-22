@@ -83,6 +83,10 @@ There are two types of "Destination" command available in current version accord
 **Example Package: >DP003NNNNN** -> *Go to destination point number 003.*
 **Example Package: >DIXXXXYYYY** -> *Go to destination point input XXXX,YYYY coordinates*
 
+### 1.6. Get Command (Computer to MASTER)
+
+According to standatd package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" and "Get 
+
 ## 2. Feedbacks (MASTER to Computer)
 Every feedback package starts with ">" character as an indicator. Computer software should just tooks the feedback packages starting with ">" character (FeedbackString[0]). MCU sends different kind of informations as a feedback (calculation results, status information etc.) for service monitoring. Computer software should only took the packages starting with ">" to avoid problems.
 

@@ -29,3 +29,7 @@ void push_IO_joint(String slave_ID, String IO_ID, String IO_value){
     String package = ">" + slave_ID + "C" + IO_ID + IO_value + "NNNNNN";
     Serial6.println(package);
 }
+void push_home_command(String slave_ID){
+    String command = ">" + slave_ID + "H" + "NNNNNNNN";
+    Serial6.println(command);
+}

@@ -43,6 +43,27 @@ void get_parameters_EEPROM(uint8_t joint_number){
     print_ethernet(serial_package);
   }
 }
+void get_points_EEPROM(){
+  for(uint8_t counter1 = 1; counter1 <= 99; counter1++){                                        //|
+    for(uint8_t counter2 = 1; counter2 <= 2; counter2++){                                       //|
+      points_matrix[counter1][counter2][1] = EEPROM.read(points_matrix[counter1][counter2][2]); //|------> update points from eeprom
+    }                                                                                           //|
+  }                                                                                             //|
+}
+void create_points_EEPROM(){
+  uint16_t eeprom_address_counter = 100;                                                       //|
+  for(uint8_t counter1 = 1; counter1 <= 99; counter1++){                                       //|
+    for(uint8_t counter2 = 1; counter2 <= 2; counter2++){                                      //|
+      points_matrix[counter1][counter2][2] = eeprom_address_counter + 4;                       //|------> eeprom address creator for points memory
+    }                                                                                          //|
+  }                                                                                            //|
+}                                                                                              //|
+void print_point(uint8_t point_ID){
+  uint16_t point_x = points_matrix[point_ID][1][1];  
+  uint16_t point_y = points_matrix[point_ID][2][1];
+  String message = "Point ID: " + String(point_ID) + " / " + "X: " + String(point_x) + " / Y: " + String(point_y);
+  print_all(message);                                                                                     
+}
 void package_analyser(String package_input){
   if(package_format_controller(package_input, 11)){ // Checking the package size and packe format
     if(isDigit(package_input[1])){ //Checking the command structure to analyze is the command directly going to SLAVE 
@@ -94,6 +115,22 @@ void package_analyser(String package_input){
           break;
         }
         case 'G':{ // Get feedback
+          char get_type = package_input[2];
+          switch(get_type){
+            case 'S':{
+              uint8_t get_joint_ID = package_input.substring(3,4).toInt();
+              get_parameters_EEPROM(get_joint_ID);
+              break;
+            }
+            case 'D':{
+              print_all("---------------------------------------------------------Service Info Start\n");
+              for(uint8_t counter = 1; counter <= 99; counter++){
+                print_point(counter);
+              }
+              print_all("---------------------------------------------------------Service Info End\n");
+              break;
+            }
+          }
           get_parameters_EEPROM(slave_ID);
           break;
         }
@@ -136,7 +173,7 @@ void package_analyser(String package_input){
           current_position_matrix[2] = point_y;
           break;
         }
-        case 'C':{
+        case 'C':{ // IO Control
           String IO_ID = package_input.substring(3.4);
           String IO_value = package_input.substring(4,5);
           push_IO_joint(String(slave_ID), IO_ID, IO_value);
@@ -150,11 +187,16 @@ void package_analyser(String package_input){
           EEPROM.put(points_matrix[point_ID][2][2], points_matrix[point_ID][2][1]);
           break;
         }
+        case 'H':{ // Allign home command
+          push_home_command(String(slave_ID));
+          current_position_matrix[slave_ID] = 0;
+          break;
+        }
       }
     }
   }
 }
-void setup() { 
+void setup(){
   Serial.begin(115200);
   Serial6.begin(9600);
   uint16_t index = millis() % NUMBER_OF_MAC;
@@ -177,17 +219,13 @@ void setup() {
   set_parameters_matrix[2][7][2] = address_input_acceleration_2;
   set_parameters_matrix[2][8][2] = address_driving_mechanism;
   set_parameters_matrix[2][9][2] = address_step_time_speed_min_2;
-  for(uint8_t counter = 1; counter <= number_of_joints; counter++){
-    get_parameters_EEPROM(counter);
-  }
-  uint16_t eeprom_address_counter = 100;                                 //|
-  for(uint8_t counter1 = 1; counter1 <= 99; counter1++){                 //|
-    for(uint8_t counter2 = 1; counter2 <= 2; counter2++){                //|------> eeprom address creator for points memory
-      points_matrix[counter1][counter2][2] = eeprom_address_counter + 4; //|
-    }                                                                    //|
-  }                                                                      //|
+  create_points_EEPROM;
+  get_points_EEPROM();
+  for(uint8_t counter = 1; counter <= number_of_joints; counter++){ //|
+    get_parameters_EEPROM(counter);                                 //|---------> update paramters from EEPROM
+  }                                                                 //|        
 }
-void loop() {
+void loop(){
   int package_size = Udp.parsePacket();
   if(package_size){
     int len = Udp.read(package_buffer, 255);
