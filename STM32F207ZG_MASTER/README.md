@@ -1,4 +1,4 @@
-# **Visiomex VMR2P0R0001BD (Master) Documentation**
+# **Visiomex VMR2P0R0001BD-MASTER Documentation**
 
 *Visiomex Industrial Image Processing Solutions Inc. 2021*
 
@@ -50,7 +50,7 @@ In set commands, the package starts with standart package beginning digit ">" an
 
 ### 1.2. Move Commands (Computer to MASTER)
 
-The move commands packages starts with standart package beginning symbol ">" and the next digit is the command type ("M" for move commands). Second digit is the slave ID to send the move command to relevent joint (DOF). The third digit is the motion type. The MASTER device can take three different motion type input where they are "R" for rotational inputs in units of degrees, "S" Number of steps to turn and "L" for linear distance input in units of millimeters. The fourth digit is *"direction of motion"* where it can take "P" for positive and "N" for negative directions. from digit five to ten (last 6 digits) are the delta motion. Fixed package size: 11 element string.
+The move commands packages starts with standart package beginning symbol ">" and the next digit is the command type ("M" for move commands). Second digit is the slave ID to send the move command to relevent joint (DOF). The third digit is the motion type. The MASTER device can take three different motion type input where they are "R" for rotational inputs in units of degrees, "S" Number of steps to turn and "L" for linear distance input in units of millimeters. The fourth digit is *"direction of motion"* where it can take "P" for positive and "N" for negative directions. From digit five to ten (last 6 digits) are the delta motion. Fixed package size: 11 element string.
 
 **Example Package: >MNTD######**
 
@@ -81,13 +81,22 @@ The "Save Point" command package starts with ">" and it continues with "P" as a 
 There are two types of "Destination" command available in current version according to the destination type and it indicated in the second digit of the string. For a pre-defined / saved destination, the second element should be "P" and the following three element contains the Point ID. For coordinat destination inputs, the second digit of the string should be "I". In coordinat inputs, digit number three to seven (4 digits) contains x-axis point and last four digits contains y-axis points as a destination.
 
 **Example Package: >DP003NNNNN** -> *Go to destination point number 003.*
-**Example Package: >DIXXXXYYYY** -> *Go to destination point input XXXX,YYYY coordinates*
+**Example Package: >DIXXXXYYYY** -> *Go to destination point input XXXX,YYYY coordinates in units of millimeters*
 
 ### 1.6. Get Command (Computer to MASTER)
 
-According to standatd package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" and "Get 
+According to standard package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" "S" and "Get Point Data" "D" and indicated in the second digit of the string.
 
-## 2. Feedbacks (MASTER to Computer)
+**Example Package: >GS#NNNNNNN** -> *Get #'th Joint parameters*
+
+**Example Package: >GD###NNNNN** -> *Get Point ID ### values*
+
+### 1.7. Transparent Commands (Computer to MASTER to SLAVE)
+
+Transparent commands are aimed to send commands directly to the SLAVE devices. When a SLAVE command (available in VMR2P0R0001BD-SLAVE Documentation) comes from computer side to MASTER device, MASTER directly forwards the package to relevant SLAVE. 
+
+## 2. Feedbacks (MASTER to Computer) 
+*Not activated in current version*
 Every feedback package starts with ">" character as an indicator. Computer software should just tooks the feedback packages starting with ">" character (FeedbackString[0]). MCU sends different kind of informations as a feedback (calculation results, status information etc.) for service monitoring. Computer software should only took the packages starting with ">" to avoid problems.
 
 *Full list of feedback packages:*
