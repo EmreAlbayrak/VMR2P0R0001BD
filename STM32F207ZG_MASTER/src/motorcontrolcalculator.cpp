@@ -34,7 +34,7 @@ float_t linear_to_rotational_conv(uint16_t input_distance, float pulley_perimete
   return ((input_distance / pulley_perimeter) * 360);
 }
 void push_move_command(uint8_t slave_ID, char direction_of_rotation, uint32_t steps){
-  String serial_slave_command = ">" + String(slave_ID) + "M" + direction_of_rotation + String(steps);
+  String serial_slave_command = ">" + String(slave_ID) + "M" + direction_of_rotation + String(steps); // TODO: Add zero padding
 }
 void joint_move(String package_input){
   

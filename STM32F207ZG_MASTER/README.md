@@ -85,11 +85,13 @@ There are two types of "Destination" command available in current version accord
 
 ### 1.6. Get Command (Computer to MASTER)
 
-According to standard package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" "S" and "Get Point Data" "D" and indicated in the second digit of the string.
+According to standard package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" "S", "Get Point Data" "D" and "Current Point" "P" where thay are indicated in the third digit of the package.
 
-**Example Package: >GS#NNNNNNN** -> *Get #'th Joint parameters*
+**Example Package: >G#SNNNNNNN** -> *Get #'th Joint parameters*
 
-**Example Package: >GD###NNNNN** -> *Get Point ID ### values*
+**Example Package: >G#DNNNNNNN** -> *Get Point values*
+
+**Example Package: >G#PNNNNNNN** -> *Get current point*
 
 ### 1.7. Transparent Commands (Computer to MASTER to SLAVE)
 
@@ -116,12 +118,12 @@ Every feedback package starts with ">" character as an indicator. Computer softw
 | 1 | Confirm | Move Command | >F1M02 | Move Rotational command confirmed |
 | 1 | Confirm | Move Command | >F1M03 | Move Steps command confirmed |
 | 1 | Confirm | IO Command | >F1C01 | IO Control command confirmed |
-| 1 | Confirm | IO Command | >F1C00 | Motor power on command confirmed | 
-| 1 | Confirm | IO Command | >F1C00 | Motor power off command confirmed | 
-| 1 | Confirm | Get Command | >F1G01 | Get command confirmed |
+| 1 | Confirm | IO Command | >F1C02 | Motor power on command confirmed | 
+| 1 | Confirm | IO Command | >F1C03 | Motor power off command confirmed | 
+| 1 | Confirm | Get Command | >F1Z01 | Package received / suitable format |
 | 1 | Confirm | Home Command | >F1H01 | Home position command confirmed |
 | 1 | Done | Move Action | >F1A01 | Action Accomplished |
-| 1 | Error | Package - General | >E1P01 | Package length mismatch |
+| 1 | Error | Package - General | >EEP01 | Package length mismatch |
 | 1 | Error | Package - General | >E1P02 | Invalid command type |
 | 1 | Error | Package - Move Command | >E1P03 | Invalid direction of rotation |
 | 1 | Error | Package - Set Command | >E1P04 | Invalid parameter ID |
