@@ -81,6 +81,7 @@ The "Save Point" command package starts with ">" and it continues with "P" as a 
 There are two types of "Destination" command available in current version according to the destination type and it indicated in the second digit of the string. For a pre-defined / saved destination, the second element should be "P" and the following three element contains the Point ID. For coordinat destination inputs, the second digit of the string should be "I". In coordinat inputs, digit number three to seven (4 digits) contains x-axis point and last four digits contains y-axis points as a destination.
 
 **Example Package: >DP003NNNNN** -> *Go to destination point number 003.*
+
 **Example Package: >DIXXXXYYYY** -> *Go to destination point input XXXX,YYYY coordinates in units of millimeters*
 
 ### 1.6. Get Command (Computer to MASTER)
@@ -97,7 +98,7 @@ According to standard package structure, Get Commands starts with ">" symbol and
 
 Transparent commands are aimed to send commands directly to the SLAVE devices. When a SLAVE command (available in VMR2P0R0001BD-SLAVE Documentation) comes from computer side to MASTER device, MASTER directly forwards the package to relevant SLAVE. 
 
-## 2. Feedbacks (MASTER to Computer) 
+## 2. Feedbacks (MASTER to Computer)
 *Not activated in current version*
 Every feedback package starts with ">" character as an indicator. Computer software should just tooks the feedback packages starting with ">" character (FeedbackString[0]). MCU sends different kind of informations as a feedback (calculation results, status information etc.) for service monitoring. Computer software should only took the packages starting with ">" to avoid problems.
 
