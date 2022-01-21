@@ -61,7 +61,7 @@ void create_points_EEPROM(){
   uint16_t eeprom_address_counter = 100;                                                       //|
   for(uint8_t counter1 = 1; counter1 <= 99; counter1++){                                       //|
     for(uint8_t counter2 = 1; counter2 <= 2; counter2++){                                      //|
-      points_address_matrix[counter1][counter2] = eeprom_address_counter + 4;                       //|------> eeprom address creator for points memory
+      points_address_matrix[counter1][counter2] = eeprom_address_counter + 4;                  //|------> eeprom address creator for points memory
     }                                                                                          //|
   }                                                                                            //|
 }                                                                                              //|
@@ -132,10 +132,11 @@ void package_analyser(String package_input){
           break;
         }
         case 'G':{ // Get feedback
-          char get_type = package_input[3];
+          char get_type = package_input[2];
           switch(get_type){
             case 'S':{
-              get_parameters_EEPROM(slave_ID);
+              uint8_t get_slave_ID = package_input.substring(3,4).toInt();
+              get_parameters_EEPROM(get_slave_ID);
               break;
             }
             case 'D':{

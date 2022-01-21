@@ -88,11 +88,11 @@ There are two types of "Destination" command available in current version accord
 
 According to standard package structure, Get Commands starts with ">" symbol and continues with "G" letter. There are two type of Get Commands available in the system where they are "Get Parameters" "S", "Get Point Data" "D" and "Current Point" "P" where thay are indicated in the third digit of the package.
 
-**Example Package: >G#SNNNNNNN** -> *Get #'th Joint parameters*
+**Example Package: >GS#NNNNNNN** -> *Get #'th Joint parameters*
 
-**Example Package: >G#DNNNNNNN** -> *Get Point values*
+**Example Package: >GPCNNNNNNN** -> *Get current point*
 
-**Example Package: >G#PNNNNNNN** -> *Get current point*
+**Example Package: >GPANNNNNNN** -> *Get all points*
 
 ### 1.7. Transparent Commands (Computer to MASTER to SLAVE)
 
