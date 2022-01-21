@@ -264,6 +264,7 @@ void loop(){
     if(len>0){
       package_buffer[len] = 0;
     }
+    //Serial.println(String(package_buffer).length()); //TODO: Delete after test
     package_analyser(package_buffer);
   }
   if(Serial.available() > 0){
