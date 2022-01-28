@@ -78,7 +78,7 @@ The "Save Point" command package starts with ">" and it continues with "P" as a 
 
 ### 1.5. Destination Command (Computer to MASTER)
 
-There are two types of "Destination" command available in current version according to the destination type and it indicated in the second digit of the string. For a pre-defined / saved destination, the second element should be "P" and the following three element contains the Point ID. For coordinat destination inputs, the second digit of the string should be "I". In coordinat inputs, digit number three to seven (4 digits) contains x-axis point and last four digits contains y-axis points as a destination.
+There are two types of "Destination" command available in current version according to the destination type and it indicated in the second digit of the string. For a pre-defined / saved destination, the second element should be "P" and the following three element contains the Point ID. For coordinat destination inputs, the second digit of the string should be "I". In coordinat inputs, digit number three to seven (4 digits) contains x-axis point and last four digits contains y-axis value in a units of "mm".
 
 **Example Package: >DP003NNNNN** -> *Go to destination point number 003.*
 
@@ -90,9 +90,9 @@ According to standard package structure, Get Commands starts with ">" symbol and
 
 **Example Package: >GS#NNNNNNN** -> *Get #'th Joint parameters*
 
-**Example Package: >GPCNNNNNNN** -> *Get current point*
+**Example Package: >GPNNNNNNNN** -> *Get current point*
 
-**Example Package: >GPANNNNNNN** -> *Get all points*
+**Example Package: >GDNNNNNNNN** -> *Get all points*
 
 ### 1.7. Transparent Commands (Computer to MASTER to SLAVE)
 

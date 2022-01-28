@@ -84,7 +84,6 @@ void package_analyser(String package_input){
         case 'S':{ // Set parameters
           uint8_t parameter_ID = package_input.substring(3,5).toInt();
           print_confirm_feedback(String(slave_ID), "S", zero_padding_string(String(parameter_ID), 2));
-          //uint32_t parameter_value = string_to_uint32_converter(package_input.substring(5,11));
           uint32_t parameter_value = package_input.substring(5,11).toInt();
           set_parameters(slave_ID, parameter_ID, parameter_value);//                                                                  
           push_set_joint(String(slave_ID),"04",String(set_parameters_matrix[slave_ID][4])); //Push microstep_coeff                  |
@@ -100,14 +99,14 @@ void package_analyser(String package_input){
             case 'S':{ // With step input
               print_confirm_feedback(String(slave_ID), "M", "03");
               uint32_t steps = package_input.substring(5,11).toInt();
-              push_move_command(slave_ID, direction_of_rotation, steps);
+              push_move_joint(String(slave_ID), String(direction_of_rotation), String(steps));
               break;
             }
             case 'R':{ // With degree input
               print_confirm_feedback(String(slave_ID), "M", "02");
               uint32_t degree = package_input.substring(5,11).toInt();
               uint32_t steps = degree_to_step_conv(degree, set_parameters_matrix[slave_ID][3], set_parameters_matrix[slave_ID][4]);
-              push_move_command(slave_ID, direction_of_rotation, steps);
+              push_move_joint(String(slave_ID), String(direction_of_rotation), String(steps));
               break;
             }
             case 'L':{ // With linear input
@@ -115,7 +114,7 @@ void package_analyser(String package_input){
               uint32_t distance = package_input.substring(5,11).toInt();
               float degrees = linear_to_rotational_conv(distance, set_parameters_matrix[slave_ID][2]);
               uint32_t steps = degree_to_step_conv(degrees, set_parameters_matrix[slave_ID][3], set_parameters_matrix[slave_ID][4]);
-              push_move_command(slave_ID, direction_of_rotation, steps);
+              push_move_joint(String(slave_ID), String(direction_of_rotation), String(steps));
               if(direction_of_rotation == 'P'){
                 current_position_matrix[slave_ID] = current_position_matrix[slave_ID] + distance;
               } 
@@ -250,7 +249,6 @@ void setup(){
   set_parameters_address_matrix[2][8] = address_driving_mechanism;
   set_parameters_address_matrix[2][9] = address_step_time_speed_min_2;
 
-
   create_points_EEPROM;
   get_points_EEPROM();
   for(uint8_t counter = 1; counter <= number_of_joints; counter++){ //|
@@ -264,6 +262,7 @@ void loop(){
     if(len>0){
       package_buffer[len] = 0;
     }
+    Serial.print("Ethernet UDP Package Size: ");
     //Serial.println(String(package_buffer).length()); //TODO: Delete after test
     package_analyser(package_buffer);
   }
