@@ -14,10 +14,10 @@ uint32_t input_system_cycle_linear_coeff;
 
 //--------------------------------------------------------------------- Hardware Connection Parameters
 
-const uint8_t motor_pulse_pin = PB13;
-const uint8_t motor_direction_pin = PB14;
-const uint8_t motor_enable_pin = PC13; //TODO: Change after test to PB157
-const uint8_t sensor_limit_switch_pin = PB12; 
+const uint8_t motor_pulse_pin = PA1;//PB13
+const uint8_t motor_direction_pin = PC15;//PB14
+const uint8_t motor_enable_pin = PC13; //TODO: Change after test to PB15
+const uint8_t sensor_limit_switch_pin = PC14; //PB12 
 
 //--------------------------------------------------------------------- Calculated Parameters
 

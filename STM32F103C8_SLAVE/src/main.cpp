@@ -50,7 +50,6 @@ void command_control(String package_income){
         send_confirm_feedback(slave_ID, "M", "01"); 
         uint32_t input_step = package_income.substring(4,11).toInt(); 
         step_count_acceleration = motor_acceleration_control(input_step_count_acceleration, input_step);
-        motor_power_on(motor_enable_pin);
         motor_direction_of_rotation(package_income[4], motor_direction_pin);
         motor_drive(input_step, input_step_time_speed_min, input_step_time_speed_steady, input_step_count_acceleration, motor_pulse_pin);
         send_confirm_feedback(slave_ID, "A", "01"); 
@@ -60,6 +59,7 @@ void command_control(String package_income){
         send_confirm_feedback(slave_ID, "G", "01");
         Serial.print("Compile Date: ");
         Serial.println(compile_date);
+
         break;
       }
       case 'H': {
@@ -81,11 +81,13 @@ void command_control(String package_income){
   }
 }
 void setup() { 
-  Serial.begin(9600);
+  Serial.begin(115200);
 //--------------------------------------- State here the relevent IO's decleration
   pinMode(motor_pulse_pin, OUTPUT);
   pinMode(motor_direction_pin, OUTPUT);
   pinMode(motor_enable_pin, OUTPUT);
+
+  motor_power_on(motor_enable_pin);
 }
 void loop() {
   if(Serial.available()>0){
