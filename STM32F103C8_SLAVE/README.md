@@ -125,10 +125,10 @@ The required hardware connections had been given in the table below.
 
 | External Device Name | External Device Pin Name | STM32F303RE Nucleo Pin Number |
 | -------------------- | ------------------------ | ----------------------------- |
-| CWD556 Motor Driver | DIR+ | PB14 |
-| CWD556 Motor Driver | PUL+ | PB13 |
+| CWD556 Motor Driver | DIR+ | PC15 |
+| CWD556 Motor Driver | PUL+ | PA01 |
 | CWD556 Motor Driver | ENA+ | PC13 |
-| Sensor - Limit Switch | Signal | PB12 |
+| Sensor - Limit Switch | Signal | PC14 |
 
 ***List of pin connection between motors and motor drivers:***
 
